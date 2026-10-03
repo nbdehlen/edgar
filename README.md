@@ -5,6 +5,15 @@ See [frontend/README.md](frontend/README.md) for frontend details.
 
 ## Development
 
+Use Node.js 24, as specified in `.nvmrc`. With nvm installed:
+
+```sh
+nvm install
+nvm use
+```
+
+Install dependencies:
+
 ```sh
 npm ci
 npm --prefix backend ci
