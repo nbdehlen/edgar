@@ -1,0 +1,10 @@
+{
+  "layout": {
+    "skipToContent": "Skip to content",
+    "darkMode": "Dark mode"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "This page doesn’t exist."
+  }
+}

@@ -3,3 +3,5 @@
 **/coverage/
 **/package-lock.json
 test-data/
+**/playwright-report/
+**/test-results/

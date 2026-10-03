@@ -1,24 +1,27 @@
 # EDGAR assignment
 
-See [backend/README.md](backend/README.md) for backend setup and commands.
+See [backend/README.md](backend/README.md) for backend details.
+See [frontend/README.md](frontend/README.md) for frontend details.
+
+## Development
 
 ```sh
 npm ci
-cd backend
-npm ci
-npm run dev
+npm --prefix backend ci
+npm --prefix frontend ci
 ```
 
-The backend runs at http://localhost:3001.
+Start each server in a separate terminal:
 
-## Project tooling
+```sh
+npm --prefix backend run dev
+npm --prefix frontend run dev
+```
 
-ESLint and Prettier are installed and configured at the repository root. Run
-these commands from root; they cover backend and future frontend source files,
-including JSX and TSX.
+The backend runs at http://localhost:3001 and the frontend at http://localhost:5173.
+
+## Checks
 
 ```sh
 npm run check
-npm run lint:fix
-npm run format
 ```

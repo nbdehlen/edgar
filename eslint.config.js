@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'codex/**']
+    ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'codex/**', '**/playwright-report/**', '**/test-results/**']
   },
   js.configs.recommended,
   tseslint.configs.recommended,
@@ -19,14 +19,16 @@ export default tseslint.config(
     },
     rules: {
       'max-lines': ['error', 160],
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_' }
-      ]
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
     }
   },
   {
-    files: ['*.js', 'backend/**/*.{js,ts}'],
+    // Preserve generated shadcn components when updating from the registry.
+    files: ['frontend/src/shared/components/[a-z]*.tsx'],
+    rules: { 'max-lines': 'off' }
+  },
+  {
+    files: ['*.js', 'backend/**/*.{js,ts}', 'frontend/*.config.ts'],
     languageOptions: {
       globals: globals.node
     }
