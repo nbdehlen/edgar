@@ -52,12 +52,12 @@ test('loader refreshes submissions and historical references when submissions ex
   submissionsResponse.filings.files = [];
 
   const justBeforeSubmissionsExpire = secConfig.submissionsTtlMs - 1;
-  clock.value = justBeforeSubmissionsExpire;
+  clock.setTime(justBeforeSubmissionsExpire);
   assert.deepEqual((await load('AAPL')).historicalFiles, first.historicalFiles);
   assert.equal(submissionsRequests, 1);
 
   const submissionsExpiryTime = secConfig.submissionsTtlMs;
-  clock.value = submissionsExpiryTime;
+  clock.setTime(submissionsExpiryTime);
   assert.deepEqual((await load('AAPL')).historicalFiles, []);
   assert.equal(submissionsRequests, 2);
 });
@@ -80,12 +80,12 @@ test('loader refreshes ticker mappings when they expire', async (t) => {
 
   await load('AAPL');
   const justBeforeMappingsExpire = secConfig.tickerTtlMs - 1;
-  clock.value = justBeforeMappingsExpire;
+  clock.setTime(justBeforeMappingsExpire);
   await load('AAPL');
   assert.equal(mappingRequests, 1);
 
   const mappingsExpiryTime = secConfig.tickerTtlMs;
-  clock.value = mappingsExpiryTime;
+  clock.setTime(mappingsExpiryTime);
   await load('AAPL');
   assert.equal(mappingRequests, 2);
 });

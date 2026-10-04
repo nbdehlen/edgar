@@ -16,16 +16,15 @@ export function tickers(): unknown {
   return JSON.parse(readFileSync(new URL('./fixtures/tickers.json', import.meta.url), 'utf8'));
 }
 
-export function fakeClock() {
+export function fakeClock(initialTime = 0) {
+  let currentTime = initialTime;
   return {
-    value: 0,
-    sleeps: [] as number[],
-    now() {
-      return this.value;
+    now: () => currentTime,
+    setTime(time: number) {
+      currentTime = time;
     },
-    async sleep(ms: number) {
-      this.sleeps.push(ms);
-      this.value += ms;
+    advanceBy(durationMs: number) {
+      currentTime += durationMs;
     }
   };
 }
