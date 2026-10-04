@@ -1,0 +1,21 @@
+{
+  "cik": "0000320193",
+  "name": "Apple Inc.",
+  "filings": {
+    "recent": {
+      "accessionNumber": ["0001140361-26-038028", "0001140361-26-038027", "0001140361-26-038026"],
+      "form": ["4", "4", "4"],
+      "filingDate": ["2026-09-29", "2026-09-29", "2026-09-29"],
+      "reportDate": ["2026-09-27", "2026-09-27", "2026-09-27"],
+      "primaryDocument": ["xslF345X06/form4.xml", "xslF345X06/form4.xml", "xslF345X06/form4.xml"]
+    },
+    "files": [
+      {
+        "name": "CIK0000320193-submissions-001.json",
+        "filingCount": 1256,
+        "filingFrom": "1994-01-26",
+        "filingTo": "2015-08-23"
+      }
+    ]
+  }
+}

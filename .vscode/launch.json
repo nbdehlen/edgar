@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug backend",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/backend",
+      "program": "${workspaceFolder}/backend/src/server.ts",
+      "runtimeArgs": ["--import", "tsx", "--env-file-if-exists=.env"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug frontend",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend",
+      "program": "${workspaceFolder}/frontend/node_modules/vite/bin/vite.js",
+      "serverReadyAction": {
+        "pattern": "Local:\\s+(https?://\\S+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome",
+        "webRoot": "${workspaceFolder}/frontend"
+      }
+    },
+    {
+      "name": "Debug backend (LAN)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/backend",
+      "program": "${workspaceFolder}/backend/src/server.ts",
+      "runtimeArgs": ["--import", "tsx", "--env-file-if-exists=.env"],
+      "env": { "HOST": "0.0.0.0" },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug frontend (LAN)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend",
+      "program": "${workspaceFolder}/frontend/node_modules/vite/bin/vite.js",
+      "args": ["--host", "0.0.0.0"],
+      "serverReadyAction": {
+        "pattern": "Local:\\s+(https?://\\S+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome",
+        "webRoot": "${workspaceFolder}/frontend"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug backend + frontend",
+      "configurations": ["Debug backend", "Debug frontend"],
+      "stopAll": true
+    },
+    {
+      "name": "Debug backend + frontend (LAN)",
+      "configurations": ["Debug backend (LAN)", "Debug frontend (LAN)"],
+      "stopAll": true
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run backend",
+      "type": "process",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "endsPattern": "Backend listening on http://\\S+:\\d+"
+        }
+      }
+    },
+    {
+      "label": "Run frontend",
+      "type": "process",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "endsPattern": "Local:\\s+https?://\\S+"
+        }
+      }
+    },
+    {
+      "label": "Run backend + frontend",
+      "dependsOn": ["Run backend", "Run frontend"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run backend (LAN)",
+      "type": "process",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "options": {
+        "cwd": "${workspaceFolder}/backend",
+        "env": { "HOST": "0.0.0.0" }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "endsPattern": "Backend listening on http://\\S+:\\d+"
+        }
+      }
+    },
+    {
+      "label": "Run frontend (LAN)",
+      "type": "process",
+      "command": "npm",
+      "args": ["run", "dev", "--", "--host", "0.0.0.0"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "endsPattern": "Local:\\s+https?://\\S+"
+        }
+      }
+    },
+    {
+      "label": "Run backend + frontend (LAN)",
+      "dependsOn": ["Run backend (LAN)", "Run frontend (LAN)"],
+      "problemMatcher": []
+    }
+  ]
+}

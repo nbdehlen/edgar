@@ -5,3 +5,4 @@
 test-data/
 **/playwright-report/
 **/test-results/
+.local/
