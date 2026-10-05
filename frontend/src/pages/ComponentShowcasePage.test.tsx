@@ -16,9 +16,9 @@ function renderRoute(path: string) {
 }
 
 describe('component showcase', () => {
-  it('redirects the home page and lets users submit the preview form', async () => {
+  it('lets users submit the preview form', async () => {
     const user = userEvent.setup();
-    const router = renderRoute('/');
+    const router = renderRoute('/components');
     expect(await screen.findByRole('heading', { name: 'A little room to explore.' })).toBeVisible();
     expect(router.state.location.pathname).toBe('/components');
     await user.type(screen.getByLabelText('Display name'), 'Alex');

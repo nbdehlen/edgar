@@ -1,0 +1,61 @@
+import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { fetchFilings, FilingsError } from '@/features/filings/api/filings';
+import { useFilingsLocation } from '@/features/filings/hooks/useFilingsLocation';
+import { CompanySwitcher } from '@/features/filings/components/CompanySwitcher';
+import { FilingsFilters } from '@/features/filings/components/FilingsFilters';
+import { FilingsResults } from '@/features/filings/components/FilingsResults';
+import { Alert, AlertTitle, AlertDescription } from '@/shared/components/alert';
+import { Button } from '@/shared/components/button';
+import { Skeleton } from '@/shared/components/skeleton';
+
+export function FilingsPage() {
+  const { t } = useTranslation();
+  const { ticker, filters, selectCompany, updateFilters } = useFilingsLocation();
+  const query = useQuery({
+    queryKey: ['filings', ticker, filters],
+    queryFn: ({ signal }) => fetchFilings(ticker, filters, signal),
+    enabled: Boolean(ticker),
+    staleTime: 60_000,
+    retry: false
+  });
+  const unknownCompany = query.error instanceof FilingsError && query.error.status === 404;
+
+  return (
+    <div className="flex min-w-0 flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="font-heading text-3xl">{t('filings.title')}</h1>
+        <p className="text-muted-foreground">{t('filings.description')}</p>
+      </div>
+      <CompanySwitcher key={ticker} ticker={ticker} onSelect={selectCompany} />
+      {ticker ? (
+        <>
+          <FilingsFilters key={`${ticker}:${filters.form}`} filters={filters} onChange={updateFilters} />
+          {query.isPending && (
+            <div role="status" className="flex flex-col gap-3">
+              <p>{t('filings.loading', { ticker })}</p>
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          )}
+          {query.isError && (
+            <Alert variant="destructive">
+              <AlertTitle>{t(unknownCompany ? 'filings.unknownTitle' : 'filings.errorTitle')}</AlertTitle>
+              <AlertDescription>
+                <p>{t(unknownCompany ? 'filings.unknownDescription' : 'filings.errorDescription', { ticker })}</p>
+                {!unknownCompany && (
+                  <Button variant="outline" disabled={query.isFetching} onClick={() => void query.refetch()}>
+                    {t('filings.retry')}
+                  </Button>
+                )}
+              </AlertDescription>
+            </Alert>
+          )}
+          {query.isSuccess && <FilingsResults data={query.data} onPage={(page) => updateFilters({ page })} />}
+        </>
+      ) : (
+        <p className="text-muted-foreground">{t('filings.start')}</p>
+      )}
+    </div>
+  );
+}

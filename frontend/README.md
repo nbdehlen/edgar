@@ -1,21 +1,15 @@
 # Frontend
 
 React + Vite with TypeScript, React Router, TanStack Query, Tailwind CSS, and
-shadcn/ui using Radix primitives. Requires Node.js 24+ and npm.
+shadcn/ui using Radix primitives. See the [root README](../README.md) for setup
+and running both apps.
 
-## Development
+## Routes
 
-From the repository root:
-
-```sh
-npm ci
-npm --prefix frontend ci
-npm --prefix frontend run dev
-```
-
-Open http://localhost:5173. `/` redirects to the temporary `/components`
-showcase, which demonstrates the shared layout, buttons, inputs, cards, and
-light/dark themes. Form submissions are local previews.
+- `/` redirects to `/filings`.
+- `/filings`: company ticker entry.
+- `/companies/:ticker/filings`: filings with filters and pagination in the URL.
+- `/components`: UI and theme showcase.
 
 ## Structure and conventions
 
@@ -51,7 +45,7 @@ repeating page styling.
 ## Checks
 
 ```sh
-npm run check                         # root lint, formatting, types, and frontend unit tests
+npm run check                         # repository lint, formatting, types, and unit tests
 npm --prefix frontend run build      # production build
 npm --prefix frontend test           # Vitest + React Testing Library
 npm --prefix frontend run test:watch
@@ -64,5 +58,5 @@ Playwright starts Vite automatically. Browser tests live in `e2e/`; unit tests
 are colocated with source. ESLint and Prettier use the repository root config.
 Generated shadcn components are exempt from the root line-count limit.
 
-Production output is `frontend/dist/`. Configure the hosting server to serve
+Production output is `frontend/dist/`. After forwarding `/api/*`, serve
 `index.html` for unknown application paths so direct route navigation works.

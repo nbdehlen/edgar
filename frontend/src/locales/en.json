@@ -5,6 +5,40 @@
   },
   "notFound": {
     "title": "Page not found",
-    "description": "This page doesn’t exist."
+    "description": "This page doesn\u2019t exist."
+  },
+  "filings": {
+    "title": "Company filings",
+    "description": "Explore SEC filings and read the original documents.",
+    "ticker": "Company ticker",
+    "tickerPlaceholder": "e.g. AAPL, SPOT, JPM",
+    "show": "Show filings",
+    "formType": "Form type",
+    "allForms": "All forms",
+    "other": "Other\u2026",
+    "exactForm": "Exact form type",
+    "apply": "Apply",
+    "sort": "Filing date order",
+    "newest": "Newest first",
+    "oldest": "Oldest first",
+    "results": "Filings results",
+    "emptyTitle": "No filings found",
+    "emptyDescription": "Try another form type or return to an earlier page.",
+    "filingDate": "Filing date",
+    "reportDate": "Report date",
+    "document": "Document",
+    "viewDocument": "View document",
+    "documentLabel": "View {{form}} filed {{date}} (opens in a new tab)",
+    "pagination": "Filings pagination",
+    "pageStatus": "Page {{page}} of {{pages}} \u00b7 {{total}} results",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Loading filings for {{ticker}}\u2026",
+    "unknownTitle": "Company not found",
+    "unknownDescription": "No company found for {{ticker}}. Check the ticker and try again.",
+    "errorTitle": "Unable to load filings",
+    "errorDescription": "Please try again. The filings service may be temporarily unavailable.",
+    "retry": "Try again",
+    "start": "Enter a company ticker to see its filings."
   }
 }
