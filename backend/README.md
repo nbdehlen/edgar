@@ -44,6 +44,29 @@ failed or malformed SEC responses return `502`, and upstream timeouts return
 `504`. A failure loading any referenced historical file fails the whole request.
 `GET /health` returns `{ "status": "ok" }`.
 
+## Filings summary API
+
+```sh
+curl 'http://localhost:3001/filings/summary?tickers=AAPL,MSFT'
+```
+
+`GET /filings/summary` requires one comma-separated `tickers` parameter with 1–25
+unique, nonblank tickers; invalid input returns `400`. Tickers are trimmed,
+uppercased, and deduplicated, preserving first-requested order and punctuation.
+
+The response contains `period: { from, to }` and a `companies` array with:
+
+- `company`: `{ ticker, cik, name }`.
+- `filingsByForm`: counts by exact form type (`10-K/A` counts separately).
+  Zero-count forms are omitted; no filings produces `{}`.
+- `latest10KDate`: latest exact `10-K` filing date across all available history,
+  or `null` if absent, independent of the counting period.
+
+The shared counting period runs from one calendar year before today through today
+in UTC, inclusive, using filing dates. February 29 clamps to February 28.
+Loading, caching, and error responses follow the company filings API above;
+any company failure fails the entire request.
+
 ## SEC access and caching
 
 Configure SEC access through `secConfig` in [src/config.ts](src/config.ts):
