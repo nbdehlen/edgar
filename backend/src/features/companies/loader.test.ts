@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { secConfig } from '../../config.js';
-import { submissionsUrl, tickerMappingUrl } from '../../shared/sec/urls.js';
+import { historicalSubmissionsUrl, submissionsUrl, tickerMappingUrl } from '../../shared/sec/urls.js';
 import { fakeClock, mockCompanySecResponses, submissions, tickers } from '../../../test/helpers.js';
 
 test('loader shares company data across tickers and uses the current company name', async (t) => {
@@ -39,6 +39,7 @@ test('loader refreshes submissions and historical references when submissions ex
     t,
     async (url) => {
       if (url === tickerMappingUrl()) return tickers();
+      if (url === historicalSubmissionsUrl(submissions().filings.files[0]!.name)) return submissions().filings.recent;
       assert.equal(url, submissionsUrl('0000320193'));
       submissionsRequests++;
       return submissionsResponse;
@@ -72,6 +73,7 @@ test('loader refreshes ticker mappings when they expire', async (t) => {
         mappingRequests++;
         return tickers();
       }
+      if (url === historicalSubmissionsUrl(submissions().filings.files[0]!.name)) return submissions().filings.recent;
       assert.equal(url, submissionsUrl('0000320193'));
       return submissions();
     },
@@ -98,6 +100,7 @@ test('loader retries malformed ticker mappings on the next lookup', async (t) =>
       mappingRequests++;
       return mappingResponse;
     }
+    if (url === historicalSubmissionsUrl(submissions().filings.files[0]!.name)) return submissions().filings.recent;
     assert.equal(url, submissionsUrl('0000320193'));
     return submissions();
   });
@@ -117,6 +120,7 @@ test('loader retries malformed submissions without reloading valid ticker mappin
       mappingRequests++;
       return tickers();
     }
+    if (url === historicalSubmissionsUrl(submissions().filings.files[0]!.name)) return submissions().filings.recent;
     assert.equal(url, submissionsUrl('0000320193'));
     submissionsRequests++;
     return submissionsResponse;

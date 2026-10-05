@@ -26,13 +26,13 @@ function column(value: unknown): unknown[] {
   return value;
 }
 
-function normalizeFilings(payload: unknown, cik: string): Filing[] {
-  const recent = record(payload);
-  const accessions = column(recent.accessionNumber);
-  const forms = column(recent.form);
-  const filingDates = column(recent.filingDate);
-  const reportDates = column(recent.reportDate);
-  const documents = column(recent.primaryDocument);
+export function normalizeFilings(payload: unknown, cik: string): Filing[] {
+  const filings = record(payload);
+  const accessions = column(filings.accessionNumber);
+  const forms = column(filings.form);
+  const filingDates = column(filings.filingDate);
+  const reportDates = column(filings.reportDate);
+  const documents = column(filings.primaryDocument);
   const columns = [forms, filingDates, reportDates, documents];
   // Each array index represents one filing; unequal lengths would mix unrelated fields.
   if (columns.some((values) => values.length !== accessions.length)) malformed();

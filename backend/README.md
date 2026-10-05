@@ -31,20 +31,18 @@ Invalid values return `400`. The response contains:
 - `company`: `{ ticker, cik, name }`.
 - `filings`: entries with `accessionNumber`, `form`, `filingDate`, `reportDate`,
   and `documentUrl`. Blank report dates and document paths become `null`.
-- `pagination`: `{ page, pageSize, total }`. `total` counts matching loaded
-  filings. Filtering and sorting precede pagination; out-of-range pages are empty.
-- `coverage`: `{ scope, additionalHistoryAvailable }`. The scope is `recent`
-  when the SEC references additional historical files that are not loaded,
-  otherwise `complete`. Coverage describes company history before filtering.
+- `pagination`: `{ page, pageSize, total }`. `total` counts matching filings across current and historical submissions. Filtering and sorting precede pagination; out-of-range pages are empty.
 
-Data comes from the SEC's main submissions payload. Historical-file references
-and date ranges are retained internally. See the
+Data comes from the SEC's main submissions payload and all referenced historical
+files. Filings are deduplicated by accession number, preferring current submissions.
+Filtering, sorting, and pagination run after all files load successfully. See the
 [SEC API documentation](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
 for the source data's history coverage.
 
 Errors use `{ "error": { "message": "..." } }`: unresolved tickers return `404`,
 failed or malformed SEC responses return `502`, and upstream timeouts return
-`504`. `GET /health` returns `{ "status": "ok" }`.
+`504`. A failure loading any referenced historical file fails the whole request.
+`GET /health` returns `{ "status": "ok" }`.
 
 ## SEC access and caching
 
@@ -63,8 +61,10 @@ Configure SEC access through `secConfig` in [src/config.ts](src/config.ts):
 Network failures, timeouts, `429`, and `5xx` responses are retried once. Other
 `4xx` responses and malformed payloads are not retried.
 
-Submissions are cached by CIK. Concurrent loads of the same resource share a
-request. Failed loads are not cached; expired data is not served after a failed
+Complete submissions, including all referenced history, are cached together by CIK.
+Concurrent requests for the same CIK share the entire load. The cache lifetime starts
+after all files have loaded successfully; expiry or a failed load requires fetching
+current submissions and history again. Failed loads are not cached; expired data is not served after a failed
 refresh. Caches and rate coordination are in memory and assume one backend process.
 
 The in-memory cache has no capacity limit. Expired entries are removed on their next

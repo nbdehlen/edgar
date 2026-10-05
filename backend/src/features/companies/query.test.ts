@@ -49,15 +49,3 @@ test('filters then sorts then paginates; ties ascend in both directions without 
   assert.equal(queryFilings(company, parseQuery({ form: '4/A' })).pagination.total, 0);
   assert.deepEqual(company, original);
 });
-
-test('coverage describes unfiltered history', () => {
-  const input = submissions();
-  const company = { ticker: 'AAPL', ...normalizeSubmissions(input, input.cik) };
-  const result = queryFilings(company, parseQuery({ form: 'absent' }));
-  assert.deepEqual(result.coverage, { scope: 'recent', additionalHistoryAvailable: true });
-  company.historicalFiles = [];
-  assert.deepEqual(queryFilings(company, parseQuery({})).coverage, {
-    scope: 'complete',
-    additionalHistoryAvailable: false
-  });
-});

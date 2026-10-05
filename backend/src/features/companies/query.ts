@@ -37,15 +37,9 @@ export function queryFilings(company: Submissions & { ticker: string }, query: F
     return compareStrings(left.accessionNumber, right.accessionNumber);
   });
   const start = (query.page - 1) * query.pageSize;
-  // Coverage describes all loaded company history, regardless of the current filter.
-  const additionalHistoryAvailable = company.historicalFiles.length > 0;
   return {
     company: { ticker: company.ticker, cik: company.cik, name: company.name },
     filings: matching.slice(start, start + query.pageSize),
-    pagination: { page: query.page, pageSize: query.pageSize, total: matching.length },
-    coverage: {
-      scope: additionalHistoryAvailable ? 'recent' : 'complete',
-      additionalHistoryAvailable
-    }
+    pagination: { page: query.page, pageSize: query.pageSize, total: matching.length }
   };
 }
