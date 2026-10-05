@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router';
-import type { FilingsFilters } from '@/features/filings/api/filings';
+import type { FilingsFilters } from '@/features/filings/api';
 
 export function useFilingsLocation() {
   const { ticker = '' } = useParams();

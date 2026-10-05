@@ -1,6 +1,6 @@
 import { IconExternalLink } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import type { FilingsResponse } from '@/features/filings/api/filings';
+import type { FilingsResponse } from '@/features/filings/api';
 import { Button } from '@/shared/components/button';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/shared/components/empty';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/shared/components/table';

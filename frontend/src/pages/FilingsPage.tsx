@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { fetchFilings, FilingsError } from '@/features/filings/api/filings';
+import { FilingsError } from '@/features/filings/api';
+import { useFilingsQuery } from '@/features/filings/queries';
 import { useFilingsLocation } from '@/features/filings/hooks/useFilingsLocation';
 import { CompanySwitcher } from '@/features/filings/components/CompanySwitcher';
 import { FilingsFilters } from '@/features/filings/components/FilingsFilters';
@@ -12,13 +12,7 @@ import { Skeleton } from '@/shared/components/skeleton';
 export function FilingsPage() {
   const { t } = useTranslation();
   const { ticker, filters, selectCompany, updateFilters } = useFilingsLocation();
-  const query = useQuery({
-    queryKey: ['filings', ticker, filters],
-    queryFn: ({ signal }) => fetchFilings(ticker, filters, signal),
-    enabled: Boolean(ticker),
-    staleTime: 60_000,
-    retry: false
-  });
+  const query = useFilingsQuery(ticker, filters);
   const unknownCompany = query.error instanceof FilingsError && query.error.status === 404;
 
   return (

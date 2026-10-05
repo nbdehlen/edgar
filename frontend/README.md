@@ -22,8 +22,9 @@ and running both apps.
 
 Create subfolders when needed. Use camelCase for ordinary files and functions,
 PascalCase for React components, and retain shadcn's generated kebab-case names.
-The `@/` alias points to `src/`. Keep server state in TanStack Query; add API
-functions alongside their owning feature or under `shared/api` when shared.
+The `@/` alias points to `src/`. Keep API functions and types in each feature's
+`api.ts`, and named TanStack Query hooks in `queries.ts`; pages compose these hooks.
+Use `shared/api` for shared API code.
 
 ## UI and theming
 

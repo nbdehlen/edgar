@@ -4,7 +4,7 @@ import { Button } from '@/shared/components/button';
 import { Input } from '@/shared/components/input';
 import { Field, FieldGroup, FieldLabel } from '@/shared/components/field';
 import { NativeSelect, NativeSelectOption } from '@/shared/components/native-select';
-import type { FilingsFilters as Filters } from '@/features/filings/api/filings';
+import type { FilingsFilters as Filters } from '@/features/filings/api';
 
 const commonForms = ['10-K', '10-Q', '8-K'];
 
