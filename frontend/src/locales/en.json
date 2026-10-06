@@ -73,7 +73,7 @@
     "dateHelp": "Counts use filing dates in the period above (UTC). Latest 10-K searches all available history; amendments are separate forms.",
     "startTitle": "Compare companies side by side",
     "startDescription": "Add company tickers to compare their filing counts, form types, and latest 10-K dates.",
-    "loading": "Loading company histories… Larger selections may take longer.",
+    "loading": "Loading company histories…",
     "errorTitle": "Unable to load summary",
     "unknownDescription": "One or more tickers could not be found. Remove incorrect tickers and add their replacements. No partial summary is available.",
     "errorDescription": "The complete selection could not be loaded. Try again; the filings service may be temporarily unavailable."

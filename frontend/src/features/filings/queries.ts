@@ -6,6 +6,7 @@ export function useFilingsQuery(ticker: string, filters: FilingsFilters) {
     queryKey: ['filings', ticker, filters],
     queryFn: ({ signal }) => fetchFilings(ticker, filters, signal),
     enabled: Boolean(ticker),
+    placeholderData: (previousData, previousQuery) => (previousQuery?.queryKey[1] === ticker ? previousData : undefined),
     staleTime: 60_000,
     retry: false
   });

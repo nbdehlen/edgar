@@ -9,9 +9,12 @@ and running both apps.
 - `/` redirects to `/filings`.
 - `/filings`: company ticker entry.
 - `/companies/:ticker/filings`: filings with filters and pagination in the URL.
+  Results stay visible during filter and page updates, but clear when switching companies.
+  Loading feedback appears after 300 ms, matching the summary page.
 - `/summary?tickers=AAPL,MSFT`: compare up to 25 companies over the last 12 months.
   Enter comma- or space-separated tickers, then select Add companies or press Enter
   to add them and update the results. Removing a ticker updates the results immediately.
+  Existing results stay visible while an updated selection loads; loading feedback appears after 300 ms.
   Sort the table, choose up to five form columns, and expand Other for the remaining
   exact form counts in a read-only table. Company links open historical filings;
   the latest 10-K date also searches all available history. A company failure fails the whole selection.

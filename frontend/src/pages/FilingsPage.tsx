@@ -7,7 +7,7 @@ import { FilingsFilters } from '@/features/filings/components/FilingsFilters';
 import { FilingsResults } from '@/features/filings/components/FilingsResults';
 import { Alert, AlertTitle, AlertDescription } from '@/shared/components/alert';
 import { Button } from '@/shared/components/button';
-import { Skeleton } from '@/shared/components/skeleton';
+import { DelayedLoading } from '@/shared/components/DelayedLoading';
 
 export function FilingsPage() {
   const { t } = useTranslation();
@@ -25,13 +25,7 @@ export function FilingsPage() {
       {ticker && (
         <>
           <FilingsFilters key={`${ticker}:${filters.form}`} filters={filters} onChange={updateFilters} />
-          {query.isPending && (
-            <div role="status" className="flex flex-col gap-3">
-              <p>{t('filings.loading', { ticker })}</p>
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-32 w-full" />
-            </div>
-          )}
+          {query.isFetching && <DelayedLoading key={JSON.stringify([ticker, filters])} message={t('filings.loading', { ticker })} hasResults={!!query.data} />}
           {query.isError && (
             <Alert variant="destructive">
               <AlertTitle>{t(unknownCompany ? 'filings.unknownTitle' : 'filings.errorTitle')}</AlertTitle>

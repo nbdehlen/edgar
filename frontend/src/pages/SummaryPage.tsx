@@ -1,12 +1,12 @@
 import { SummaryError } from '@/features/summary/api';
 import { SummaryCompanies } from '@/features/summary/components/SummaryCompanies';
+import { DelayedLoading } from '@/shared/components/DelayedLoading';
 import { SummaryResults } from '@/features/summary/components/SummaryResults';
 import { useSummaryQuery } from '@/features/summary/queries';
 import { parseSummaryTickers } from '@/features/summary/utils';
 import { Alert, AlertDescription, AlertTitle } from '@/shared/components/alert';
 import { Button } from '@/shared/components/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/shared/components/empty';
-import { Skeleton } from '@/shared/components/skeleton';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 
@@ -38,13 +38,7 @@ export function SummaryPage() {
           </EmptyHeader>
         </Empty>
       )}
-      {valid && query.isPending && (
-        <div role="status" className="flex flex-col gap-3">
-          <p>{t('summary.loading')}</p>
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-48 w-full" />
-        </div>
-      )}
+      {valid && query.isFetching && <DelayedLoading message={t('summary.loading')} key={tickers.join(',')} hasResults={!!query.data} />}
       {valid && query.isError && (
         <Alert variant="destructive">
           <AlertTitle>{t('summary.errorTitle')}</AlertTitle>
