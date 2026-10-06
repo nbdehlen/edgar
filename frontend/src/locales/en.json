@@ -1,11 +1,14 @@
 {
   "layout": {
     "skipToContent": "Skip to content",
-    "darkMode": "Dark mode"
+    "darkMode": "Dark mode",
+    "navigation": "Main navigation",
+    "filings": "Filings",
+    "summary": "Summary"
   },
   "notFound": {
     "title": "Page not found",
-    "description": "This page doesn\u2019t exist."
+    "description": "This page doesn’t exist."
   },
   "filings": {
     "title": "Company filings",
@@ -15,7 +18,7 @@
     "show": "Show filings",
     "formType": "Form type",
     "allForms": "All forms",
-    "other": "Other\u2026",
+    "other": "Other…",
     "exactForm": "Exact form type",
     "apply": "Apply",
     "sort": "Filing date order",
@@ -30,15 +33,49 @@
     "viewDocument": "View document",
     "documentLabel": "View {{form}} filed {{date}} (opens in a new tab)",
     "pagination": "Filings pagination",
-    "pageStatus": "Page {{page}} of {{pages}} \u00b7 {{total}} results",
+    "pageStatus": "Page {{page}} of {{pages}} · {{total}} results",
     "previous": "Previous",
     "next": "Next",
-    "loading": "Loading filings for {{ticker}}\u2026",
+    "loading": "Loading filings for {{ticker}}…",
     "unknownTitle": "Company not found",
     "unknownDescription": "No company found for {{ticker}}. Check the ticker and try again.",
     "errorTitle": "Unable to load filings",
     "errorDescription": "Please try again. The filings service may be temporarily unavailable.",
-    "retry": "Try again",
-    "start": "Enter a company ticker to see its filings."
+    "retry": "Try again"
+  },
+  "summary": {
+    "title": "Company summary",
+    "description": "Compare filing activity over the last 12 months.",
+    "companies": "Companies",
+    "placeholder": "Add tickers, e.g. AAPL, SPOT, JPM",
+    "addCompanies": "Add companies",
+    "remove": "Remove {{ticker}}",
+    "tickerError": "Compare up to 25 unique tickers. Remove a ticker before adding more.",
+    "emptyInput": "Enter at least one ticker to add.",
+    "company": "Company",
+    "total": "Total filings",
+    "other": "Other",
+    "latest": "Latest 10-K",
+    "noneFound": "None found",
+    "otherLabel": "Other filings for {{ticker}}: {{count}}",
+    "otherTitle": "Other filings · {{ticker}}",
+    "otherForms": "Other forms",
+    "filings": "Filings",
+    "results": "Company comparison",
+    "period": "Last 12 months · {{from}} – {{to}}",
+    "activity": "Filing activity",
+    "columns": "Form columns",
+    "columnHelp": "Show up to five exact form types. Other contains all remaining forms, including amendments.",
+    "column": "Form column {{number}}",
+    "removeColumn": "Remove column",
+    "addColumn": "Add column",
+    "requestedOrder": "Reset order",
+    "dateHelp": "Counts use filing dates in the period above (UTC). Latest 10-K searches all available history; amendments are separate forms.",
+    "startTitle": "Compare companies side by side",
+    "startDescription": "Add company tickers to compare their filing counts, form types, and latest 10-K dates.",
+    "loading": "Loading company histories… Larger selections may take longer.",
+    "errorTitle": "Unable to load summary",
+    "unknownDescription": "One or more tickers could not be found. Remove incorrect tickers and add their replacements. No partial summary is available.",
+    "errorDescription": "The complete selection could not be loaded. Try again; the filings service may be temporarily unavailable."
   }
 }

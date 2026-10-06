@@ -9,6 +9,12 @@ and running both apps.
 - `/` redirects to `/filings`.
 - `/filings`: company ticker entry.
 - `/companies/:ticker/filings`: filings with filters and pagination in the URL.
+- `/summary?tickers=AAPL,MSFT`: compare up to 25 companies over the last 12 months.
+  Enter comma- or space-separated tickers, then select Add companies or press Enter
+  to add them and update the results. Removing a ticker updates the results immediately.
+  Sort the table, choose up to five form columns, and expand Other for the remaining
+  exact form counts in a read-only table. Company links open historical filings;
+  the latest 10-K date also searches all available history. A company failure fails the whole selection.
 - `/components`: UI and theme showcase.
 
 ## Structure and conventions
@@ -18,6 +24,7 @@ and running both apps.
 - `src/routes/`: route definitions.
 - `src/pages/`: route-level composition.
 - `src/features/<feature>/`: feature-owned components, hooks, API, and utilities.
+  `filings/` owns company filing browsing; `summary/` owns multi-company comparison.
 - `src/shared/`: reusable components, utilities, hooks, and API code.
 
 Create subfolders when needed. Use camelCase for ordinary files and functions,

@@ -22,7 +22,7 @@ export function FilingsPage() {
         <p className="text-muted-foreground">{t('filings.description')}</p>
       </div>
       <CompanySwitcher key={ticker} ticker={ticker} onSelect={selectCompany} />
-      {ticker ? (
+      {ticker && (
         <>
           <FilingsFilters key={`${ticker}:${filters.form}`} filters={filters} onChange={updateFilters} />
           {query.isPending && (
@@ -47,8 +47,6 @@ export function FilingsPage() {
           )}
           {query.isSuccess && <FilingsResults data={query.data} onPage={(page) => updateFilters({ page })} />}
         </>
-      ) : (
-        <p className="text-muted-foreground">{t('filings.start')}</p>
       )}
     </div>
   );
