@@ -50,7 +50,7 @@ export function SummaryPage() {
           </AlertDescription>
         </Alert>
       )}
-      {valid && query.isSuccess && <SummaryResults key={`results:${tickers.join(',')}`} data={query.data} />}
+      {valid && query.isSuccess && <SummaryResults data={query.data} />}
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function SummaryResults({ data }: { data: SummaryResponse }) {
   const [forms, setForms] = useState(defaultForms);
   const [showColumns, setShowColumns] = useState(false);
   const [sort, setSort] = useState<{ key: string; direction: 'ascending' | 'descending' } | null>(null);
-  const availableForms = [...new Set([...defaultForms, ...data.companies.flatMap((item) => Object.keys(item.filingsByForm))])].sort();
+  const availableForms = [...new Set([...defaultForms, ...forms, ...data.companies.flatMap((item) => Object.keys(item.filingsByForm))])].sort();
   const companies = sort ? sortSummaries(data.companies, sort.key, sort.direction, forms) : data.companies;
   const ColumnsChevron = showColumns ? IconChevronUp : IconChevronDown;
   const dateFormat = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
