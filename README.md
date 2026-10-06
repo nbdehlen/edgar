@@ -1,7 +1,10 @@
 # EDGAR assignment
 
-See [backend/README.md](backend/README.md) for backend details.
-See [frontend/README.md](frontend/README.md) for frontend details.
+Browse SEC company filings by ticker and compare filing counts across companies.
+The Express backend loads SEC data; the React frontend provides browsing and summary views.
+
+- [Backend](backend/README.md): API contract, server configuration, and SEC caching.
+- [Frontend](frontend/README.md): routes, code conventions, theming, and production hosting.
 
 ## Development
 
@@ -20,7 +23,17 @@ npm --prefix backend ci
 npm --prefix frontend ci
 ```
 
-Start each server in a separate terminal:
+Configure the backend before starting it:
+
+```sh
+cp backend/.env.example backend/.env
+```
+
+Set `SEC_USER_AGENT` in `backend/.env` to your application name and contact email
+(for example, `EdgarFilings developer@your-domain.com`). The backend requires this
+identity to start and makes live requests to the SEC.
+
+Start each server in a separate terminal from the repository root:
 
 ```sh
 npm --prefix backend run dev
@@ -39,3 +52,7 @@ computer's local IP address.
 ```sh
 npm run check
 ```
+
+This runs repository lint and formatting checks, both apps' type checks, and unit
+and backend integration tests. Production builds and Playwright browser tests
+are separate; see each app's README for commands.

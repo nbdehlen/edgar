@@ -2,7 +2,7 @@
 
 React + Vite with TypeScript, React Router, TanStack Query, Tailwind CSS, and
 shadcn/ui using Radix primitives. See the [root README](../README.md) for setup
-and running both apps.
+and running both apps. Commands below run from `frontend/`.
 
 ## Local API configuration
 
@@ -16,18 +16,13 @@ and is only read by Vite; it is not exposed to browser code.
 
 - `/` redirects to `/filings`.
 - `/filings`: company ticker entry.
-- `/companies/:ticker/filings`: filings with filters and pagination in the URL.
-  Results stay visible during filter and page updates, but clear when switching companies.
-  Loading feedback appears after 300 ms, matching the summary page. Every filing links
-  to its SEC document; complete-submission links are labeled separately and include exhibits.
-- `/summary?tickers=AAPL,MSFT`: compare up to 25 companies over the last 12 months.
-  Enter comma- or space-separated tickers, then select Add companies or press Enter
-  to add them and update the results. Removing a ticker updates the results immediately.
-  Existing results stay visible while an updated selection loads; loading feedback appears after 300 ms.
-  Sort the table, choose up to five form columns, and expand Other for the remaining
-  exact form counts in a read-only table. Company links open historical filings;
-  the latest 10-K date also searches all available history. A company failure fails the whole selection.
-- `/components`: shared UI and theme showcase, available only in the Vite dev server (`import.meta.env.DEV`).
+- `/companies/:ticker/filings`: filings with filters and pagination in the URL,
+  plus links to primary documents or complete submissions.
+- `/summary?tickers=AAPL,MSFT`: compare up to 25 companies by form over the last
+  12 months, with configurable columns and links to company filings. The latest
+  10-K date covers all available history. See the [backend API contract](../backend/README.md#filings-summary-api)
+  for counting and error semantics.
+- `/components`: shared UI and theme showcase, available only in the Vite dev server.
 
 ## Structure and conventions
 
@@ -67,20 +62,23 @@ repeating page styling.
 ## Checks
 
 ```sh
-npm run check                         # repository lint, formatting, types, and unit tests
-npm --prefix frontend run build      # production build
-npm --prefix frontend test           # Vitest + React Testing Library
-npm --prefix frontend run test:watch
-cd frontend
+npm run typecheck
+npm run build
+npm test                             # Vitest + React Testing Library
+npm run test:watch
 npx playwright install chromium      # first browser setup
 npm run test:e2e                      # desktop and mobile Chromium
 ```
 
-Playwright starts Vite automatically. Browser tests live in `e2e/`; unit tests
-are colocated with source. ESLint and Prettier use the repository root config.
-Generated shadcn components are exempt from the root line-count limit.
+Playwright starts Vite automatically and mocks API responses, so no running backend
+is needed. Browser tests live in `e2e/`; unit tests are colocated with source.
+See the [root checks](../README.md#checks) for repository-wide validation.
+ESLint and Prettier use the repository root config; generated shadcn components
+are exempt from the root line-count limit.
 
-Production output is `frontend/dist/`. The current frontend calls same-origin
-`/api/*` URLs, so hosting it requires routing those requests to the backend.
-Serve `index.html` for unknown application paths so direct route navigation works.
-`API_PROXY_TARGET` does not configure production routing.
+## Production hosting
+
+`npm run build` writes `dist/`. Route same-origin `/api/*` requests to the backend,
+removing the `/api` prefix. Serve `index.html` for unknown application paths so
+direct route navigation works. `API_PROXY_TARGET` configures only the development
+proxy, not production routing.

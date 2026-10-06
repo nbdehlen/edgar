@@ -1,12 +1,13 @@
 # Backend
 
-Use Node.js 24. Install dependencies with `npm ci` in this directory. Copy
-`.env.example` to `.env` and set `SEC_USER_AGENT` to your application name and a
-contact email, for example `EdgarFilings developer@your-domain.com`. Startup
-rejects missing or invalid identities. `PORT` defaults to `3001`; `HOST` defaults
-to `127.0.0.1` (`0.0.0.0` for LAN access).
+Express + TypeScript API for SEC company filings and multi-company summaries.
+See the [root README](../README.md#development) for installation, required
+`SEC_USER_AGENT` setup, and running both apps. Commands below run from `backend/`.
 
-Run `npm run dev`, or `npm run build` followed by `npm start`.
+`PORT` defaults to `3001`; `HOST` defaults to `127.0.0.1` (`0.0.0.0` for LAN access).
+Run `npm run dev` for development, or `npm run build` followed by `npm start`
+for compiled server code in `dist/`. Both startup commands load `.env` and reject
+missing or invalid SEC identities.
 
 ## Filings API
 
@@ -34,9 +35,7 @@ Invalid values return `400`. The response contains:
   `document.kind` is `primary-document` when the SEC provides a document path,
   or `complete-submission` when that path is blank or whitespace. `document.url`
   links to the primary document or the original complete submission text (including
-  exhibits), respectively. Complete submissions use the root archive path,
-  which also supports filings before May 2000. URLs are constructed without
-  additional SEC requests; availability is controlled by the SEC.
+  exhibits), respectively. Document availability is controlled by the SEC.
 - `pagination`: `{ page, pageSize, total }`. `total` counts matching filings across current and historical submissions. Filtering and sorting precede pagination; out-of-range pages are empty.
 
 Data comes from the SEC's main submissions payload and all referenced historical
@@ -75,17 +74,9 @@ any company failure fails the entire request.
 
 ## SEC access and caching
 
-Configure SEC access through `secConfig` in [src/config.ts](src/config.ts):
-
-- `websiteBaseUrl` and `dataBaseUrl`: origins for ticker mappings, filing documents,
-  and submissions. URL construction lives in `src/shared/sec/urls.ts`.
-- `tickerTtlMs` and `submissionsTtlMs`: cache lifetimes in milliseconds, measured
-  from each successful load.
-- `requestIntervalMs`: minimum spacing between SEC request starts, shared across
-  the process and including retries.
-- `timeoutMs`: timeout per attempt, including reading the response body.
-- `retryBackoffMs`: minimum wait before retrying; longer `Retry-After` delays take
-  precedence.
+SEC origins, cache lifetimes, request spacing, timeouts, and retry delays are
+configured in [src/config.ts](src/config.ts). Request spacing applies across the
+process, including retries; timeouts include reading the response body.
 
 Network failures, timeouts, `429`, and `5xx` responses are retried once. Other
 `4xx` responses and malformed payloads are not retried.
@@ -99,18 +90,21 @@ refresh. Caches and rate coordination are in memory and assume one backend proce
 The in-memory cache has no capacity limit. Expired entries are removed on their next
 access; untouched entries remain in memory until the process exits.
 
-Routes import the shared `loadCompany` function directly; its module owns the caches.
-SEC configuration is validated at startup. The shared `fetchSecJson` function uses
-one process-wide scheduler and calls the platform fetch and timer APIs directly.
+## Structure
+
+- `src/server.ts` and `src/app.ts`: startup and Express application setup.
+- `src/features/`: company loading and filings queries, summaries, and health routes.
+- `src/shared/`: SEC client, caching, URL construction, validation, and HTTP errors.
 
 ## Checks
 
-`npm test` runs deterministic Node tests with checked-in fixtures derived from
-SEC samples; no live SEC connection is required. Tests live beside the source files
-they cover, including endpoint integration tests beside their routes. Shared helpers
-and fixtures live in `test/`. Loader and route tests mock the SEC module using Node’s
-experimental module-mocking flag, enabled by the test script.
+```sh
+npm test
+npm run typecheck
+npm run build
+```
 
-`npm run typecheck` checks source and tests. `npm run build` uses
-`tsconfig.build.json` to compile only server code. Root `npm run check` includes
-the backend tests alongside the repository checks.
+Tests use checked-in SEC fixtures and mocks; no live SEC connection is required.
+Tests live beside their source files, with shared helpers and fixtures in `test/`.
+The test script enables Node's experimental module mocking. Type checks include
+tests; the build compiles only server code.
