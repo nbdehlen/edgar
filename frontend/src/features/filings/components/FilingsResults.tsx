@@ -5,7 +5,7 @@ import { Button } from '@/shared/components/button';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/shared/components/empty';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/shared/components/table';
 
-export function FilingsResults({ data, onPage }: { data: FilingsResponse; onPage: (page: number) => void }) {
+export function FilingsResults({ data, onPage, paginationDisabled }: { data: FilingsResponse; onPage: (page: number) => void; paginationDisabled: boolean }) {
   const { t } = useTranslation();
   const { page, pageSize, total } = data.pagination;
   const pages = Math.max(1, Math.ceil(total / pageSize));
@@ -68,10 +68,10 @@ export function FilingsResults({ data, onPage }: { data: FilingsResponse; onPage
           {t('filings.pageStatus', { page, pages, total })}
         </p>
         <div className="flex gap-2">
-          <Button variant="outline" disabled={page <= 1} onClick={() => onPage(Math.min(page - 1, pages))}>
+          <Button variant="outline" disabled={paginationDisabled || page <= 1} onClick={() => onPage(Math.min(page - 1, pages))}>
             {t('filings.previous')}
           </Button>
-          <Button variant="outline" disabled={page >= pages} onClick={() => onPage(page + 1)}>
+          <Button variant="outline" disabled={paginationDisabled || page >= pages} onClick={() => onPage(page + 1)}>
             {t('filings.next')}
           </Button>
         </div>

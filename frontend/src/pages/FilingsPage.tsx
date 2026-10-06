@@ -39,7 +39,7 @@ export function FilingsPage() {
               </AlertDescription>
             </Alert>
           )}
-          {query.isSuccess && <FilingsResults data={query.data} onPage={(page) => updateFilters({ page })} />}
+          {query.isSuccess && <FilingsResults data={query.data} onPage={(page) => updateFilters({ page })} paginationDisabled={query.isPlaceholderData} />}
         </>
       )}
     </div>
