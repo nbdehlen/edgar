@@ -9,7 +9,15 @@ function response(ticker: string, page = 1, form = '10-K', total = 26) {
   return new Response(
     JSON.stringify({
       company: { ticker, cik: '0000320193', name: ticker },
-      filings: [{ accessionNumber: `${ticker}-${page}`, form, filingDate: '2026-01-15', reportDate: null, documentUrl: null }],
+      filings: [
+        {
+          accessionNumber: `${ticker}-${page}`,
+          form,
+          filingDate: '2026-01-15',
+          reportDate: null,
+          document: { url: 'https://www.sec.gov/Archives/edgar/data/320193/0000320193-00-000001.txt', kind: 'complete-submission' }
+        }
+      ],
       pagination: { page, pageSize: 25, total }
     })
   );

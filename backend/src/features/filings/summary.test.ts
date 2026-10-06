@@ -34,7 +34,7 @@ function companyWithFilings(entries: [string, string][]) {
     form,
     filingDate,
     reportDate: '2020-01-01',
-    documentUrl: null
+    document: { url: 'https://www.sec.gov/Archives/edgar/data/320193/0000320193-00-000001.txt', kind: 'complete-submission' }
   }));
   return { ticker: 'AAPL', cik: '0000320193', name: 'Apple Inc.', historicalFiles: [], filings };
 }

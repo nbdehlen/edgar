@@ -8,7 +8,15 @@ test('filings controls work on desktop and mobile with bookmarkable URLs', async
     await route.fulfill({
       json: {
         company: { ticker: 'AAPL', cik: '0000320193', name: 'Apple Inc.' },
-        filings: [{ accessionNumber: 'apple-filing', form, filingDate: '2026-01-15', reportDate: null, documentUrl: 'https://www.sec.gov/Archives/apple.htm' }],
+        filings: [
+          {
+            accessionNumber: 'apple-filing',
+            form,
+            filingDate: '2026-01-15',
+            reportDate: null,
+            document: { url: 'https://www.sec.gov/Archives/apple.htm', kind: 'primary-document' }
+          }
+        ],
         pagination: { page: currentPage, pageSize: 25, total: 26 }
       }
     });

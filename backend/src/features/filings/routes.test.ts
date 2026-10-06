@@ -28,14 +28,14 @@ test('filings summary endpoint', async (t) => {
               form: '10-K',
               filingDate: '2024-11-01',
               reportDate: '2024-09-30',
-              documentUrl: null
+              document: { url: 'https://www.sec.gov/Archives/edgar/data/320193/0000320193-00-000001.txt', kind: 'complete-submission' }
             },
             {
               accessionNumber: '0000320193-26-000001',
               form: '8-K',
               filingDate: '2026-10-05',
               reportDate: null,
-              documentUrl: null
+              document: { url: 'https://www.sec.gov/Archives/edgar/data/320193/0000320193-00-000001.txt', kind: 'complete-submission' }
             }
           ]
         };

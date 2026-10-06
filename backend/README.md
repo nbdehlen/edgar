@@ -30,7 +30,13 @@ Invalid values return `400`. The response contains:
 
 - `company`: `{ ticker, cik, name }`.
 - `filings`: entries with `accessionNumber`, `form`, `filingDate`, `reportDate`,
-  and `documentUrl`. Blank report dates and document paths become `null`.
+  and a required `document: { url, kind }` object. Blank report dates become `null`.
+  `document.kind` is `primary-document` when the SEC provides a document path,
+  or `complete-submission` when that path is blank or whitespace. `document.url`
+  links to the primary document or the original complete submission text (including
+  exhibits), respectively. Complete submissions use the root archive path,
+  which also supports filings before May 2000. URLs are constructed without
+  additional SEC requests; availability is controlled by the SEC.
 - `pagination`: `{ page, pageSize, total }`. `total` counts matching filings across current and historical submissions. Filtering and sorting precede pagination; out-of-range pages are empty.
 
 Data comes from the SEC's main submissions payload and all referenced historical

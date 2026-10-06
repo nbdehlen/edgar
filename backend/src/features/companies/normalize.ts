@@ -1,4 +1,4 @@
-import { filingDocumentUrl } from '../../shared/sec/urls.js';
+import { completeSubmissionUrl, filingDocumentUrl } from '../../shared/sec/urls.js';
 import { date, malformed, normalizeCik, record, string } from '../../shared/sec/validation.js';
 import type { Filing, HistoricalFile, Submissions } from './types.js';
 
@@ -15,10 +15,10 @@ export function normalizeTickers(payload: unknown): Map<string, string> {
   return tickers;
 }
 
-function documentUrl(cik: string, accession: string, value: unknown): string | null {
+function normalizeDocument(cik: string, accession: string, value: unknown): Filing['document'] {
   const path = string(value, true);
-  if (!path.trim()) return null;
-  return filingDocumentUrl(cik, accession, path);
+  if (!path.trim()) return { url: completeSubmissionUrl(cik, accession), kind: 'complete-submission' };
+  return { url: filingDocumentUrl(cik, accession, path), kind: 'primary-document' };
 }
 
 function column(value: unknown): unknown[] {
@@ -45,7 +45,7 @@ export function normalizeFilings(payload: unknown, cik: string): Filing[] {
       form: string(forms[index]),
       filingDate: date(filingDates[index]),
       reportDate: reportDate.trim() ? date(reportDate) : null,
-      documentUrl: documentUrl(cik, accessionNumber, documents[index])
+      document: normalizeDocument(cik, accessionNumber, documents[index])
     };
   });
 }

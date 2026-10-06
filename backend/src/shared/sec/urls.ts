@@ -18,3 +18,8 @@ export function filingDocumentUrl(cik: string, accession: string, path: string):
   // Archive paths use unpadded CIKs and accession numbers without hyphens.
   return new URL(`/Archives/edgar/data/${Number(cik)}/${accession.replaceAll('-', '')}/${encodedPath}`, secConfig.websiteBaseUrl).href;
 }
+
+export function completeSubmissionUrl(cik: string, accession: string): string {
+  // The root archive path also supports filings before May 2000.
+  return new URL(`/Archives/edgar/data/${Number(cik)}/${accession}.txt`, secConfig.websiteBaseUrl).href;
+}

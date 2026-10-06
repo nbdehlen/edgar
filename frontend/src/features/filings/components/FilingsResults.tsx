@@ -42,21 +42,17 @@ export function FilingsResults({ data, onPage, paginationDisabled }: { data: Fil
                 </TableCell>
                 <TableCell>{filing.reportDate ?? '—'}</TableCell>
                 <TableCell>
-                  {filing.documentUrl ? (
-                    <Button asChild variant="link" size="sm" className="px-0">
-                      <a
-                        href={filing.documentUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={t('filings.documentLabel', { form: filing.form, date: filing.filingDate })}
-                      >
-                        {t('filings.viewDocument')}
-                        <IconExternalLink data-icon="inline-end" aria-hidden="true" />
-                      </a>
-                    </Button>
-                  ) : (
-                    '—'
-                  )}
+                  <Button asChild variant="link" size="sm" className="px-0">
+                    <a
+                      href={filing.document.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t(`filings.documentLabels.${filing.document.kind}`, { form: filing.form, date: filing.filingDate })}
+                    >
+                      {t(`filings.documentLinks.${filing.document.kind}`)}
+                      <IconExternalLink data-icon="inline-end" aria-hidden="true" />
+                    </a>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

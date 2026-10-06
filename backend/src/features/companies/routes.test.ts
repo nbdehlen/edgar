@@ -19,7 +19,7 @@ test('company filings endpoint', async (t) => {
             form: ['10-K'],
             filingDate: ['2020-01-01'],
             reportDate: ['2019-12-31'],
-            primaryDocument: ['annual.htm']
+            primaryDocument: ['']
           };
         }
         if (url === submissionsUrl('0000320193')) return submissions();
@@ -44,6 +44,10 @@ test('company filings endpoint', async (t) => {
   await t.test('includes history when sorting, filtering and paging', async () => {
     const oldest = await (await get('/companies/AAPL/filings?sort=asc&pageSize=1')).json();
     assert.equal(oldest.filings[0].filingDate, '2020-01-01');
+    assert.deepEqual(oldest.filings[0].document, {
+      url: 'https://www.sec.gov/Archives/edgar/data/320193/0000320193-20-000001.txt',
+      kind: 'complete-submission'
+    });
     const last = await (await get('/companies/AAPL/filings?page=4&pageSize=1')).json();
     assert.equal(last.filings[0].filingDate, '2020-01-01');
     const annual = await (await get('/companies/AAPL/filings?form=10-K')).json();

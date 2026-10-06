@@ -71,7 +71,7 @@ test('loader refreshes current and historical filings together after expiry', as
   clock.setTime(secConfig.submissionsTtlMs);
   const refreshed = await load('AAPL');
   // Even a historical file with an unchanged name is fetched again on refresh.
-  assert.match(refreshed.filings.at(-1)!.documentUrl!, /corrected.htm$/);
+  assert.match(refreshed.filings.at(-1)!.document.url, /corrected.htm$/);
   assert.equal(submissionsRequests, 2);
   assert.equal(historyRequests, 2);
 });

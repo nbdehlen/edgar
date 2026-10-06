@@ -9,7 +9,13 @@ import { routes } from '@/routes/routes';
 const apple = {
   company: { ticker: 'AAPL', cik: '0000320193', name: 'Apple Inc.' },
   filings: [
-    { accessionNumber: 'apple-annual', form: '10-K', filingDate: '2026-01-15', reportDate: null, documentUrl: 'https://www.sec.gov/Archives/apple.htm' }
+    {
+      accessionNumber: 'apple-annual',
+      form: '10-K',
+      filingDate: '2026-01-15',
+      reportDate: null,
+      document: { url: 'https://www.sec.gov/Archives/apple.htm', kind: 'primary-document' }
+    }
   ],
   pagination: { page: 1, pageSize: 25, total: 26 }
 };
@@ -44,9 +50,23 @@ describe('filings page', () => {
     await user.keyboard('{Enter}');
     expect(await screen.findByRole('heading', { name: 'Apple Inc.' })).toBeVisible();
     expect(router.state.location.pathname).toBe('/companies/AAPL/filings');
-    expect(screen.getByRole('link', { name: /View 10-K filed/ })).toHaveAttribute('href', apple.filings[0].documentUrl);
+    expect(screen.getByRole('link', { name: /View 10-K filed/ })).toHaveAttribute('href', apple.filings[0].document.url);
     expect(screen.getByText('—')).toBeVisible();
     expect(screen.getByRole('button', { name: 'Previous' })).toBeDisabled();
+  });
+
+  it('labels complete submissions and links directly to the API destination', async () => {
+    const document = {
+      url: 'https://www.sec.gov/Archives/edgar/data/320193/0000912057-00-023442.txt',
+      kind: 'complete-submission'
+    };
+    mockResponse({ ...apple, filings: [{ ...apple.filings[0], document }] });
+    renderPage('/companies/AAPL/filings');
+    const link = await screen.findByRole('link', { name: /View complete submission for 10-K filed/ });
+    expect(link).toHaveTextContent('View complete submission');
+    expect(link).toHaveAttribute('href', document.url);
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('fetches URL filters, resets pagination, and restores filters with browser back', async () => {

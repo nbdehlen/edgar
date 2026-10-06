@@ -29,9 +29,13 @@ test('normalizes aligned columns, blank dates and document paths; ignores unused
   const result = normalizeSubmissions(input, cik);
   assert.equal(result.name, 'Apple Inc.');
   assert.equal(result.filings[0]?.reportDate, null);
-  assert.equal(result.filings[0]?.documentUrl, 'https://www.sec.gov/Archives/edgar/data/320193/000114036126038028/xslF345X06/form4.xml');
-  assert.equal(result.filings[1]?.documentUrl, null);
-  assert.match(result.filings[2]!.documentUrl!, /folder\/my%20file%231.htm$/);
+  assert.equal(result.filings[0]?.document.url, 'https://www.sec.gov/Archives/edgar/data/320193/000114036126038028/xslF345X06/form4.xml');
+  assert.equal(result.filings[0]?.document.kind, 'primary-document');
+  assert.deepEqual(result.filings[1]?.document, {
+    url: `https://www.sec.gov/Archives/edgar/data/320193/${input.filings.recent.accessionNumber[1]}.txt`,
+    kind: 'complete-submission'
+  });
+  assert.match(result.filings[2]!.document.url, /folder\/my%20file%231.htm$/);
   assert.equal(result.filings[2]?.form, '10-K/A');
   assert.deepEqual(result.historicalFiles[0], {
     name: input.filings.files[0]!.name,
@@ -73,4 +77,26 @@ test('rejects malformed consumed fields and mismatched column lengths', () => {
     assert.throws(() => normalizeSubmissions(value, cik), /Malformed/);
   }
   assert.throws(() => normalizeTickers({ 0: { ticker: '', cik_str: 12 } }), /Malformed/);
+});
+
+test('blank paths link to the original complete submission for historical filings', () => {
+  for (const path of ['', '  \t']) {
+    const input = submissions();
+    input.filings.recent.accessionNumber[0] = '0000912057-00-023442';
+    input.filings.recent.primaryDocument[0] = path;
+    const result = normalizeSubmissions(input, cik);
+    // Older filings use the root archive path, without an accession directory.
+    assert.deepEqual(result.filings[0]?.document, {
+      url: 'https://www.sec.gov/Archives/edgar/data/320193/0000912057-00-023442.txt',
+      kind: 'complete-submission'
+    });
+  }
+});
+
+test('missing or non-string document paths remain malformed SEC data', () => {
+  for (const path of [null, undefined, 123]) {
+    const input = submissions();
+    Object.assign(input.filings.recent.primaryDocument, { 0: path });
+    assert.throws(() => normalizeSubmissions(input, cik), /Malformed/);
+  }
 });

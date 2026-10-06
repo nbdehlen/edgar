@@ -30,8 +30,14 @@
     "filingDate": "Filing date",
     "reportDate": "Report date",
     "document": "Document",
-    "viewDocument": "View document",
-    "documentLabel": "View {{form}} filed {{date}} (opens in a new tab)",
+    "documentLinks": {
+      "primary-document": "View document",
+      "complete-submission": "View complete submission"
+    },
+    "documentLabels": {
+      "primary-document": "View {{form}} filed {{date}} (opens in a new tab)",
+      "complete-submission": "View complete submission for {{form}} filed {{date}} (opens in a new tab)"
+    },
     "pagination": "Filings pagination",
     "pageStatus": "Page {{page}} of {{pages}} · {{total}} results",
     "previous": "Previous",

@@ -3,7 +3,10 @@ export interface Filing {
   form: string;
   filingDate: string;
   reportDate: string | null;
-  documentUrl: string | null;
+  document: {
+    url: string;
+    kind: 'primary-document' | 'complete-submission';
+  };
 }
 
 export interface HistoricalFile {

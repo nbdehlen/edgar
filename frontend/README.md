@@ -10,7 +10,8 @@ and running both apps.
 - `/filings`: company ticker entry.
 - `/companies/:ticker/filings`: filings with filters and pagination in the URL.
   Results stay visible during filter and page updates, but clear when switching companies.
-  Loading feedback appears after 300 ms, matching the summary page.
+  Loading feedback appears after 300 ms, matching the summary page. Every filing links
+  to its SEC document; complete-submission links are labeled separately and include exhibits.
 - `/summary?tickers=AAPL,MSFT`: compare up to 25 companies over the last 12 months.
   Enter comma- or space-separated tickers, then select Add companies or press Enter
   to add them and update the results. Removing a ticker updates the results immediately.
