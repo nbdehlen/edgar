@@ -10,7 +10,7 @@ export function NotFoundPage() {
       <h1 className="font-heading text-3xl">{t('notFound.title')}</h1>
       <p className="text-muted-foreground">{t('notFound.description')}</p>
       <Button asChild>
-        <Link to="/components">View components</Link>
+        <Link to="/filings">{t('layout.filings')}</Link>
       </Button>
     </section>
   );

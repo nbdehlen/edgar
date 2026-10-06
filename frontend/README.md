@@ -19,7 +19,7 @@ and running both apps.
   Sort the table, choose up to five form columns, and expand Other for the remaining
   exact form counts in a read-only table. Company links open historical filings;
   the latest 10-K date also searches all available history. A company failure fails the whole selection.
-- `/components`: UI and theme showcase.
+- `/components`: shared UI and theme showcase, available only in the Vite dev server (`import.meta.env.DEV`).
 
 ## Structure and conventions
 

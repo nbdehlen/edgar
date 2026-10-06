@@ -1,6 +1,5 @@
 import { Navigate, type RouteObject } from 'react-router';
 import { AppLayout } from '@/shared/components/AppLayout';
-import { ComponentShowcasePage } from '@/pages/ComponentShowcasePage';
 import { SummaryPage } from '@/pages/SummaryPage';
 import { FilingsPage } from '@/pages/FilingsPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -13,7 +12,9 @@ export const routes: RouteObject[] = [
       { path: 'filings', element: <FilingsPage /> },
       { path: 'summary', element: <SummaryPage /> },
       { path: 'companies/:ticker/filings', element: <FilingsPage /> },
-      { path: 'components', element: <ComponentShowcasePage /> },
+      ...(import.meta.env.DEV
+        ? [{ path: 'components', lazy: async () => ({ Component: (await import('@/pages/ComponentShowcasePage')).ComponentShowcasePage }) }]
+        : []),
       { path: '*', element: <NotFoundPage /> }
     ]
   }

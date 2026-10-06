@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { Button } from '@/shared/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/components/card';
-import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/shared/components/field';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/shared/components/field';
+import { NativeSelect, NativeSelectOption } from '@/shared/components/native-select';
 import { Input } from '@/shared/components/input';
 
 export function ExampleForm() {
@@ -30,6 +31,18 @@ export function ExampleForm() {
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input id="email" name="email" type="email" placeholder="alex@example.com" autoComplete="email" required />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="form-type">Form type</FieldLabel>
+              <NativeSelect id="form-type" defaultValue="10-K">
+                <NativeSelectOption value="10-K">10-K</NativeSelectOption>
+                <NativeSelectOption value="10-Q">10-Q</NativeSelectOption>
+              </NativeSelect>
+            </Field>
+            <Field data-invalid>
+              <FieldLabel htmlFor="invalid-ticker">Invalid input example</FieldLabel>
+              <Input id="invalid-ticker" defaultValue="?" aria-invalid aria-describedby="ticker-error" />
+              <FieldError id="ticker-error">Enter a valid company ticker.</FieldError>
             </Field>
             <Field data-disabled>
               <FieldLabel htmlFor="workspace">Workspace</FieldLabel>

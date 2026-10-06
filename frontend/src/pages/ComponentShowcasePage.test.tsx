@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { describe, expect, it } from 'vitest';
@@ -32,7 +32,7 @@ describe('component showcase', () => {
     const user = userEvent.setup();
     renderRoute('/missing');
     expect(screen.getByRole('heading', { name: 'Page not found' })).toBeVisible();
-    await user.click(screen.getByRole('link', { name: 'View components' }));
-    expect(await screen.findByRole('heading', { name: 'A little room to explore.' })).toBeVisible();
+    await user.click(within(screen.getByRole('main')).getByRole('link', { name: /^Filings$/ }));
+    expect(await screen.findByRole('heading', { name: 'Company filings' })).toBeVisible();
   });
 });
