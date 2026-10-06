@@ -1,3 +1,5 @@
+import { apiFetch } from '@/shared/api/apiFetch';
+
 export interface Filing {
   accessionNumber: string;
   form: string;
@@ -30,7 +32,7 @@ export class FilingsError extends Error {
 export async function fetchFilings(ticker: string, filters: FilingsFilters, signal: AbortSignal): Promise<FilingsResponse> {
   const params = new URLSearchParams({ sort: filters.sort, page: String(filters.page), pageSize: '25' });
   if (filters.form) params.set('form', filters.form);
-  const response = await fetch(`/api/companies/${encodeURIComponent(ticker)}/filings?${params}`, { signal });
+  const response = await apiFetch(`/companies/${encodeURIComponent(ticker)}/filings?${params}`, { signal });
   if (!response.ok) throw new FilingsError(response.status);
   return response.json();
 }

@@ -1,3 +1,4 @@
+import { apiFetch } from '@/shared/api/apiFetch';
 import type { FilingsResponse } from '../filings/api';
 
 export class SummaryError extends Error {
@@ -19,7 +20,7 @@ export interface SummaryResponse {
 
 export async function fetchSummary(tickers: string[], signal: AbortSignal): Promise<SummaryResponse> {
   const params = new URLSearchParams({ tickers: tickers.join(',') });
-  const response = await fetch(`/api/filings/summary?${params}`, { signal });
+  const response = await apiFetch(`/filings/summary?${params}`, { signal });
   if (!response.ok) throw new SummaryError(response.status);
   return response.json();
 }
